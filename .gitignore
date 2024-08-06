@@ -1,0 +1,38 @@
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+.env
+*.env
+venv/
+ENV/
+env.bak/
+.env.bak/
+
+# Django Migrations
+*/migrations/*.py
+*/migrations/*.pyc
+
+# Media and static files
+media/
+staticfiles/
+static/
+
+# VS Code
+.vscode/
+
+
+# Windows
+Thumbs.db
+ehthumbs.db
