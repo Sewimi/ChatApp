@@ -31,7 +31,7 @@ def show_login_page(request):
             return redirect('chatting:show_chats')
         else:
             messages.success(request,("There was an error logging in. Try again"))
-            return redirect('login')
+            return redirect('social:login')
     else:
         return render(request,'login.html')
     
@@ -135,4 +135,4 @@ def remove_friend(request, username):
         messages.error(request, 'User does not exist.')
     except Profile.DoesNotExist:
         messages.error(request, 'Profile does not exist.')
-    return redirect('profile', username=username)
+    return redirect('social:profile', username=username)

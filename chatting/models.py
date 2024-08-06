@@ -5,6 +5,7 @@ class Chat(models.Model):
     chat_name = models.CharField(max_length=90)
     participants = models.ManyToManyField('social.Profile')
     administrator = models.ForeignKey('social.Profile',on_delete=models.SET_NULL,null=True,related_name='admin_chats')
+    individual_chat = models.BooleanField(default=False)
 
     def send_message(self, sender, content):
         message = Message.objects.create(chat=self, sender=sender, content=content)

@@ -32,7 +32,7 @@ def leave_chat(request):
             chat_id = form.cleaned_data['chat_id']
             chat = get_object_or_404(Chat, id=chat_id)
             chat.leave_user(request.user.profile)   
-    return redirect('home')
+    return redirect('chatting:show_chats')
 
 @login_required
 def delete_chat(request):

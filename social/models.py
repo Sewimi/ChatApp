@@ -14,9 +14,11 @@ class Profile(models.Model):
         invitation.from_profile.friends.add(self)
         chat  = apps.get_model('chatting','Chat')
         new_chat = chat.objects.create(
-        chat_name = f'{self.user.username}\'s and {invitation.from_profile}\'s chat')
-        new_chat.participants.add(self)  
+        chat_name = f'{self.user.username}\'s and {invitation.from_profile}\'s chat',
+        individual_chat = True)
+        new_chat.participants.add(self)
         new_chat.participants.add(invitation.from_profile)  
+        new_chat.save()
         invitation.delete()
 
     def reject_friend_invitation(self,invitation):
