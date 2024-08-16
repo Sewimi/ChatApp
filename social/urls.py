@@ -14,5 +14,5 @@ urlpatterns = [
     path('send_invitation/<str:username>/',views.send_invitation,name='send_invitation'),
     path('handle_invitation/',views.handle_invitation,name='handle_invitation'),
     path('remove_friend/<str:username>/', views.remove_friend, name='remove_friend'),
-
+   
 ]

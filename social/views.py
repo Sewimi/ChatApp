@@ -8,6 +8,7 @@ from .forms import RegisterForm
 from chatting.models import Chat
 from chatting.forms import CreateChatForm
 from .models import Profile,Invitation
+from rapidfuzz import fuzz, process
 
 
 def landing_page(request):
@@ -50,7 +51,6 @@ def show_register_page(request):
         login(request, user)
         return redirect('chatting:show_chats')
 
-    
 def logout_page(request):
     logout(request)
     messages.success(request,("You were logged out"))
@@ -60,13 +60,10 @@ def logout_page(request):
 def profile_view(request,username):
     vied_user = get_object_or_404(User,username=username)
     invitations = vied_user.profile.received_invitations.all()
-
     pending = False
     for invitation in invitations:
         if invitation.from_profile == request.user.profile:
             pending = True
-
-
     logged_users_profile = request.user.profile
     user_chats = Chat.objects.filter(participants = logged_users_profile)
     context = {
@@ -81,7 +78,16 @@ def search_profile(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         if username:
-            return redirect(reverse('social:profile', kwargs={'username': username}))
+            broad_matches = User.objects.filter(username__startswith=username[:2])[:100]
+            usernames = broad_matches.values_list('username', flat=True)
+            best_matches = process.extract(username, usernames, limit=5)
+            matched_usernames = [match[0] for match in best_matches]
+
+            users = User.objects.filter(username__in=matched_usernames)
+            print("users :"  , broad_matches , "\n\n====")
+
+            context = {'users' : users}
+            return render(request,'profileList.html',context)
     return redirect('chatting:show_chats')
 
 @login_required
